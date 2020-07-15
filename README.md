@@ -25,3 +25,13 @@ client.getContacts()
 # Pulling data for messages sent out during the first week of 2020
 client.getMessages(startDate = '01-01-2020', endDate = '01-07-2020')
 ```
+
+## LTK Pipeline Deliverability Report Pipeline
+
+The **LTK Deliverability Report Pipeline** runs from the *MarTech Virtual Machine* (MVM) every Tuesday at 12 AM; the script that runs this is called *pipeline_deliverability_conversation.py*. This script relies on the following three libraries:
+
+* ListrakWriter Library: it interacts with Listrak’s API, pulls the requested data and writes as CSV files to the desired folder in the MVM.
+
+* Utils script: it provides all the required credentials for both the **ListrakWriter and Transfer** libraries.
+
+* Transfer Library: it queues up each of the data pulls for each of the brands, sends the files over to the **Azure Datalake** and triggers the **LTK_Deliverability_Report Job** in Databricks once each of these is over.
