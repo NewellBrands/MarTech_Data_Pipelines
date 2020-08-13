@@ -42,5 +42,10 @@ listDict = {
     'yankeeGermany': 354118,
     'margaritaville': 354388,
     'marmotA':354254,
-    'yankeeUKA': 355360
+    'yankeeUKA': 355360,
+    'yankeeGermany': 354118,
+    'yankeeFranceA': 355357,
+    'yankeeGermanyA': 355358,
+    'yankeeItalyA': 355359
+
 }
