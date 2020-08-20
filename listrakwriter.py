@@ -488,7 +488,7 @@ class ListrakWriter():
             else:
                 writer.writerow([self.listId] + data)
 
-    def getContacts(self, startDate = None, endDate = None, subscribed = True, segmentationFields = {}, log = False, fileSuffix = None):
+    def getContacts(self, startDate = None, endDate = None, subscribed = True, segmentationFields = {}, jsonOutput = False, log = False, fileSuffix = None):
         '''
         The getContacts method handles all requests related to the Contacts endpoint. If no startDate or endDate are provided, the method will
         get the full contact list.
@@ -540,7 +540,10 @@ class ListrakWriter():
                 raise key
             else:
                 data = self.isResponseEmpty(response, nurl, log)
-                self.contactOutput(data, fileSuffix)
+                if jsonOutput:
+                    self.contactJsonOutput(data, counter, fileSuffix)
+                else:
+                    self.contactOutput(data, fileSuffix)
                 nextPage = response['nextPageCursor']
                 counter += 1
         if log:
@@ -596,6 +599,17 @@ class ListrakWriter():
             else:
                 name = self.listId
             [writer.writerow([name] + [val for key, val in row.items() if key != 'segmentationFieldValues'] + [val['value'] for val in row['segmentationFieldValues']]) for row in data]
+
+    def contactJsonOutput(self, data, counter, fileSuffix):
+        fileName = "{}_contacts_{}".format(str(self.listId), str(counter+1))
+        if fileSuffix:
+            fileName = fileName + "_{}".format(fileSuffix)
+        if self.contactPath:
+            fileName = self.contactPath + fileName
+        fileName = fileName + ".json"
+        with open(fileName, 'w') as f:
+            json.dump(data, f)
+        return fileName
 
     def getConversationMessages(self, conversationId, conversationName, startDate = None, endDate = None, preVers = False, log = False, fileSuffix = None):
         if self.log:
@@ -691,9 +705,10 @@ class ListrakWriter():
             f.write("\n")
 
 if __name__== "__main__":
-    client = ListrakWriter(client_id, client_secret, listId= listDict['parker'], messagePath = './test/')
+    client = ListrakWriter(client_id, client_secret, listId= listDict['yccUS'], contactPath = './test/')
     start = datetime.datetime.now()
-
-    client.getConversationMessages(15652, "05-10-2020", "05-17-2020", False, False, None)
+    with open("json_fields/field_group_11.json", 'r') as f:
+        fields = json.load(f)
+    client.getContacts(startDate='08-17-2020', jsonOutput=True, segmentationFields = fields)
     end = datetime.datetime.now()
     print(end - start)
