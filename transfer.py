@@ -64,16 +64,19 @@ class Transfer():
                                                 log = log, fileSuffix = fileSuffix)
 
         elif self.endpoint == "contacts":
-            fileName = str(brand) + "_contacts"
-            if fileSuffix:
-                fileName = fileName + "_{}".format(fileSuffix)
-            fileName = fileName + ".csv"
-            logData = [[str(brand), fileName, "PENDING DOWNLOAD", self.client.messagePath, str(destination), str(uploadPath)]]
-            self.writeLog(logData, update = False)
+            if not action['jsonOutput']:
+                fileName = str(brand) + "_contacts"
+                if fileSuffix:
+                    fileName = fileName + "_{}".format(fileSuffix)
+                fileName = fileName + ".csv"
+                logData = [[str(brand), fileName, "PENDING DOWNLOAD", self.client.messagePath, str(destination), str(uploadPath)]]
+                self.writeLog(logData, update = False)
             print("Fetching contact for brand {}".format(brand))
             filesDownloaded = self.client.getContacts(startDate = startDate, endDate = endDate,
                                                       log = log, fileSuffix = fileSuffix,
                                                       subscribed = action['subscribed'], segmentationFields = action['segmentationFields'], jsonOutput = action['jsonOutput'])
+            logData = [[str(self.brand), ntpath.basename(file), "PENDING DOWNLOAD", self.client.messagePath, str(destination), str(uploadPath)] for file in filesDownloaded]
+            self.writeLog(logData, update = False)
 
         elif self.endpoint == 'conversation':
             filesDownloaded = self.client.getConversationMessages(action['conversation'], action['conversationName'],startDate = startDate, endDate = endDate,

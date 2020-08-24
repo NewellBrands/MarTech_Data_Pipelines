@@ -527,6 +527,7 @@ class ListrakWriter():
 
         nextPage = "cursor"
         counter = 0
+        fileList = []
         while nextPage:
             if counter == 0:
                 nurl = contactUrl
@@ -541,7 +542,7 @@ class ListrakWriter():
             else:
                 data = self.isResponseEmpty(response, nurl, log)
                 if jsonOutput:
-                    self.contactJsonOutput(data, counter, fileSuffix)
+                    fileList.append(self.contactJsonOutput(data, counter, fileSuffix))
                 else:
                     self.contactOutput(data, fileSuffix)
                 nextPage = response['nextPageCursor']
@@ -570,7 +571,7 @@ class ListrakWriter():
             if log:
                 self.logWriter(success)
 
-            return [self.fileName]
+            return fileList
 
     def contactOutput(self, data, fileSuffix):
         """
@@ -607,10 +608,10 @@ class ListrakWriter():
         if self.contactPath:
             fileName = self.contactPath + fileName
         fileName = fileName + ".json"
+
         with open(fileName, 'w') as f:
             json.dump(data, f)
         return fileName
-
     def getConversationMessages(self, conversationId, conversationName, startDate = None, endDate = None, preVers = False, log = False, fileSuffix = None):
         if self.log:
             log = True
@@ -635,7 +636,7 @@ class ListrakWriter():
                 except KeyboardInterrupt as key:
                     print("Operation Canceled")
                     break
-            return  fileList
+            return fileList
 
     def conversationMessage(self, conversationUrl, conversationName, startDate, endDate, log, fileSuffix):
         try:
