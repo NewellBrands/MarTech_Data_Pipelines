@@ -73,7 +73,7 @@ class Transfer():
             print("Fetching contact for brand {}".format(brand))
             filesDownloaded = self.client.getContacts(startDate = startDate, endDate = endDate,
                                                       log = log, fileSuffix = fileSuffix,
-                                                      subscribed = action['subscribed'], segmentationFields = action['segmentationFields'])
+                                                      subscribed = action['subscribed'], segmentationFields = action['segmentationFields'], jsonOutput = action['jsonOutput'])
 
         elif self.endpoint == 'conversation':
             filesDownloaded = self.client.getConversationMessages(action['conversation'], action['conversationName'],startDate = startDate, endDate = endDate,
@@ -209,7 +209,7 @@ if __name__ == "__main__":
     dbParams = {'token': token, 'instance': instance, "job_id": 18}
     actions = [#{'brand': listDict['marmot'], 'name': 'Marmot','endpoint': "messages", 'startDate': startDate, 'endDate': None, 'log': True, 'fileSuffix': None, 'destination' : 'datalake', 'uploadPath': "arrivals/", "subscribed": True, "segmentationFields": {}},
                #{'brand': listDict['marmot'], 'name': 'Marmot','endpoint': "summary", 'startDate': startDate, 'endDate': endDate, 'log': True, 'fileSuffix': None, 'destination' : 'datalake', 'uploadPath': "arrivals/"},
-               {'brand': listDict['yccUS'], 'name': 'YccUS','endpoint': "contacts", 'startDate': None, 'endDate': None, 'log': True, 'subscribed': True, 'segmentationFields':{},'fileSuffix': 'test', 'destination' : 'sftp', 'creds':{'url': 'mctc659s6fvgc5-vg35769jt9gsm.ftp.marketingcloudops.com', 'user':'110006176', 'password': '4KT.AN!@e!23hN!1'},'uploadPath': "/Export/reports/"},
+               {'brand': listDict['yccUS'], 'name': 'YccUS','endpoint': "contacts", 'startDate': None, 'endDate': None, 'log': True, 'subscribed': True, 'segmentationFields':{},'fileSuffix': 'test', 'destination' : 'sftp', 'creds':{'url': 'mctc659s6fvgc5-vg35769jt9gsm.ftp.marketingcloudops.com', 'user':'110006176', 'password': '4KT.AN!@e!23hN!1'},'uploadPath': "/Export/reports/", 'jsonOutput':True},
                #{'brand': listDict['food'], 'name': 'FoodSaver','endpoint': "messages", 'startDate': startDate, 'endDate': None, 'log': True, 'fileSuffix': 'test', 'destination' : 'sftp', 'creds':{'url': 'mctc659s6fvgc5-vg35769jt9gsm.ftp.marketingcloudops.com', 'user':'110006176', 'password': '4KT.AN!@e!23hN!1'},'uploadPath': "/Export/reports/"},
                #{'brand': listDict['calphalon'], 'endpoint': "messages", 'startDate': startDate, 'endDate': None, 'log': True, 'fileSuffix': None, 'destination' : 'datalake', 'uploadPath': "arrival/"},
                #{'brand': listDict['calphalon'], 'endpoint': "summary", 'startDate': startDate, 'endDate': None, 'log': True, 'fileSuffix': None, 'destination' : 'datalake', 'uploadPath': "arrival/"},
