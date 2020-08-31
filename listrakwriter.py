@@ -571,6 +571,8 @@ class ListrakWriter():
             if log:
                 self.logWriter(success)
 
+            if not jsonOutput:
+                fileList = [self.fileName]
             return fileList
 
     def contactOutput(self, data, fileSuffix):
