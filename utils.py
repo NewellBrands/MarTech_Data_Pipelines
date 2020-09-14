@@ -46,6 +46,15 @@ listDict = {
     'yankeeGermany': 354118,
     'yankeeFranceA': 355357,
     'yankeeGermanyA': 355358,
-    'yankeeItalyA': 355359
-
+    'yankeeItalyA': 355359,
+    'crockpotA': 354433,
+    'holmesA': 354436,
+    'margaritavilleA': 354437,
+    'mrcoffeeA': 354438,
+    'osterA':354460,
+    'sunbeamA':354459,
+    'expo': 353970,
+    'papermate':353980,
+    'prismacolor': 353983,
+    'sharpie': 353981
 }
